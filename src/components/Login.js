@@ -8,11 +8,16 @@ export function Login() {
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
   const [errorMessg,setErrorMessg] = useState("")
+
+  const d = new Date();
+  d.setTime(d.getTime() + (24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
   
   function loginButton(){
     console.log("sign in clicked",email,password)
     if(email ==="demo@rmes.com" && password === "test"){
       localStorage.setItem("email",email)
+      document.cookie = `email=${email};${expires};`
       history.push("/trafo")
     }
     else{
@@ -21,7 +26,8 @@ export function Login() {
     
   }
 
-  if(localStorage.getItem("email")){
+  const[,cookieEmail]= decodeURIComponent(document.cookie).split("=")
+  if (cookieEmail){
     history.push("/trafo")
   }
   return (
