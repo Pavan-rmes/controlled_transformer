@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.dga{
-    top: 30;
-}
+
 
 @media (max-width:500px){
     .config{

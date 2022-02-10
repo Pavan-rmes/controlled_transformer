@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Modal({ showModal, setShowModal }) {
+export function Modal({ showModal, setShowModal,H2,setH2,C2H6,setC2H6,CH4,setCH4,C2H4,setC2H4,C2H2,setC2H2  }) {
 
   return (
     <>
@@ -31,17 +31,38 @@ export function Modal({ showModal, setShowModal }) {
                   <label className="block mb-2" for="username">
                     Give th C2H2 Value:-
                   </label>
-                  <input style={{ width: "250px" }} className="mb-10 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="acetylene Value" />
+                  <input
+                  onChange={(e)=>setC2H2(e.target.value)}
+                  value={C2H2} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="acetylene Value" />
 
                   <label className="block mb-2" for="username">
                     Give th CH4 Value:-
                   </label>
-                  <input style={{ width: "250px" }} className="mb-10 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="methane Value" />
+                  <input
+                  onChange={(e)=>setCH4(e.target.value)}
+                  value={CH4} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="methane Value" />
 
                   <label className="block mb-2" for="username">
                     Give th C2H4 Value:-
                   </label>
-                  <input style={{ width: "250px" }} className="mb-10 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="ethylene Value" />
+                  <input 
+                  onChange={(e)=>setC2H4(e.target.value)}
+                  value={C2H4} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="ethylene Value" />
+
+                  <label className="block mb-2" for="username">
+                    Give th H2 Value:-
+                  </label>
+                  <input
+                  onChange={(e)=>setH2(e.target.value)}
+                  value={H2} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="ethylene Value" />
+
+                  <label className="block mb-2" for="username">
+                    Give th C2H6 Value:-
+                  </label>
+                  <input
+                  onChange={(e)=>setC2H6(e.target.value)}
+                  value={C2H6} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="ethylene Value" />
+
 
                 </div>
                 {/*footer*/}

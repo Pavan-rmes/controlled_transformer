@@ -1,31 +1,40 @@
 import React from "react";
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import {useState,useEffect } from 'react';
+import { API } from "./utility";
+import axios from "axios";
 
-export function Coniguration() {
-  useEffect(() => {
-    axios.get("http://192.168.214.128:9000/trafo")
-      .then((data) => {
-        console.log(data.data);
-        setRegulation(data.data.regulation);
-        setLoadPercentage(data.data.loadpercentage);
-        setPort(data.data.port);
-        data.data.automatic ? setAutomatic("yes") : setAutomatic("no");
-      });
-  }, []);
+export function Coniguration({id}) {
 
   const [regulation, setRegulation] = useState(5);
   const [port, setPort] = useState(50002);
   const [automatic, setAutomatic] = useState("yes");
   const [loadPercentage, setLoadPercentage] = useState("50");
-
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position)=> {
+      axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=43aa700123b6e84a6be0c446132dd5fa`)
+      .then(data=>{
+        axios.post(`${API}:${9000+id}/trafo/ambtemp`,{
+          ambTemp:(+(data.data.main.temp)-273).toFixed(2)
+        })
+      })
+    });
+  }, []);
+  useEffect(()=>{
+    axios.get(`${API}:${9000+id}/trafo`)
+      .then((data) => {
+        setRegulation(data.data.regulation);
+        setLoadPercentage(data.data.loadpercentage);
+        setPort(data.data.port);
+        data.data.automatic ? setAutomatic("yes") : setAutomatic("no");
+      });
+  })
   const [portErr, setPortErr] = useState(false);
   const [loadErr, setLoadErr] = useState(false);
   function checkInputValues() {
     let portResult = false;
     let loadResult = false;
     if (+port < 50000) { setPortErr(true); portResult = false; } else { setPortErr(false); portResult = true; }
-    if (+loadPercentage > 0 && +loadPercentage < 100) { setLoadErr(false); loadResult = true; } else { setLoadErr(true); loadResult = false; }
+    if (+loadPercentage > 0 && +loadPercentage < 130) { setLoadErr(false); loadResult = true; } else { setLoadErr(true); loadResult = false; }
     return portResult && loadResult ? true : false;
   }
   return (
@@ -34,7 +43,7 @@ export function Coniguration() {
         <label className="block mb-2" for="username">
           Give the port:-
         </label>
-        <input onChange={(event) => setPort(event.target.value)} style={{ width: "250px" }} value={port} className={`${portErr ? "mb-0" : "mb-10"} appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline`} type="text" placeholder="Port number above 50,000" />
+        <input disabled onChange={(event) => setPort(event.target.value)} style={{ width: "250px" }} value={port} className={`${portErr ? "mb-0" : "mb-10"} appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline`} type="text" placeholder="Port number above 50,000" />
         <br></br>
         <p className={`${portErr ? "block" : "hidden"} mb-8 text-red-500`}>Port Should be greater than 50,000</p>
         <label className="block text-gray-700  mb-2" for="username">
@@ -45,7 +54,7 @@ export function Coniguration() {
           <option value={"yes"}>Yes</option>
         </select>
         <label className="block mb-2" for="username">
-          Give the percentage of load:-(0-100)
+          Give the percentage of load:-(0-130)
         </label>
         <input onChange={(event) => setLoadPercentage(event.target.value)} style={{ width: "250px" }} value={loadPercentage} className={`${loadErr ? "mb-0" : "mb-10"} appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline`} type="text" placeholder="load value in percentage" />
         <p className={`${loadErr ? "block" : "hidden"} mb-8 text-red-500`}>Give a valid load percentage</p>
@@ -67,7 +76,7 @@ export function Coniguration() {
             style={{ marginLeft: "30%", marginBottom: "20%" }}
             onClick={() => {
               console.log("hello");
-              checkInputValues() ? SendRequest(loadErr, regulation, loadPercentage, port, automatic, setAutomatic, setPort, setLoadPercentage, setRegulation) : console.log("unexpected error");
+              checkInputValues() ? SendRequest(id,loadErr,regulation, loadPercentage, port, automatic, setAutomatic, setPort, setLoadPercentage, setRegulation) : console.log("unexpected error");
             }}
             className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
             Run >
@@ -79,7 +88,7 @@ export function Coniguration() {
 }
 
 
-export function SendRequest(loadErr,regulation,loadPercentage,port,automatic,setAutomatic,setPort,setLoadPercentage,setRegulation){
+export function SendRequest(id,loadErr,regulation,loadPercentage,port,automatic,setAutomatic,setPort,setLoadPercentage,setRegulation){
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
   
@@ -87,7 +96,7 @@ export function SendRequest(loadErr,regulation,loadPercentage,port,automatic,set
       "regulation": regulation,
       "port": port,
       "automatic":automatic,
-      "percentage": loadPercentage
+      "percentage": loadPercentage,
     });
   
     var requestOptions = {
@@ -97,7 +106,7 @@ export function SendRequest(loadErr,regulation,loadPercentage,port,automatic,set
       redirect: 'follow'
     };
   
-    fetch("http://192.168.214.128:9000/trafo", requestOptions)
+    fetch(`${API}:${9000+id}/trafo`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
