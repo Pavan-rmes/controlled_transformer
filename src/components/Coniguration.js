@@ -1,6 +1,6 @@
 import React from "react";
 import {useState,useEffect } from 'react';
-import { API } from "./utility";
+import { API } from "../utility";
 import axios from "axios";
 
 export function Coniguration({id}) {
@@ -9,16 +9,6 @@ export function Coniguration({id}) {
   const [port, setPort] = useState(50002);
   const [automatic, setAutomatic] = useState("yes");
   const [loadPercentage, setLoadPercentage] = useState("50");
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position)=> {
-      axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=43aa700123b6e84a6be0c446132dd5fa`)
-      .then(data=>{
-        axios.post(`${API}:${9000+id}/trafo/ambtemp`,{
-          ambTemp:(+(data.data.main.temp)-273).toFixed(2)
-        })
-      })
-    });
-  }, []);
   useEffect(()=>{
     axios.get(`${API}:${9000+id}/trafo`)
       .then((data) => {
@@ -27,7 +17,7 @@ export function Coniguration({id}) {
         setPort(data.data.port);
         data.data.automatic ? setAutomatic("yes") : setAutomatic("no");
       });
-  })
+  },[])
   const [portErr, setPortErr] = useState(false);
   const [loadErr, setLoadErr] = useState(false);
   function checkInputValues() {
@@ -39,7 +29,7 @@ export function Coniguration({id}) {
   }
   return (
     <>
-      <div className='config'>
+      <div className='config shadow-lg rounded-2xl ml-4 pl-4 pr-4 pt-4'>
         <label className="block mb-2" for="username">
           Give the port:-
         </label>

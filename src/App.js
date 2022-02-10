@@ -1,59 +1,78 @@
-import React from "react";
+import React,{useEffect} from "react";
 import './App.css';
-import { DiasplaySide } from "./DiasplaySide";
-import { Coniguration } from "./Coniguration";
-import { API } from "./utility";
-import axios from "axios";
-import { useEffect, useState } from 'react';
-
+import { DiasplaySide } from "./components/DiasplaySide";
+import { Coniguration } from "./components/Coniguration";
+import { NamePlate } from "./components/NamePlate";
+import { Location } from "./components/Location";
+import {Login} from "./components/Login"
+import { Route, Switch } from "react-router-dom";
+import {AuthRoute} from "./Authroute"
+import tarfoImg from "./images/transformerModel1.jpg";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
   // const location = useLocation()
- 
   const id = +window.location.href.split("=")[1]
   //socket
   return (
-      <div className='main flex flex-wrap mt-16 ml-16'>
-        <Coniguration id={id}  />
-        <DiasplaySide id={id} />
-        <NamePlate id={id} />
-    </div>
+      <div>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <AuthRoute path="/trafo/:id">
+              <Transformer id={id} />
+          </AuthRoute>
+          <AuthRoute path="/trafo">
+            <Assets />
+          </AuthRoute>
+        </Switch>
+      </div>
   );
 }
 
-const nameplate = [{value:"MVA",units:"MVA",sym:"lpow"},{value:"AMPERES",units:"A",sym:"rcurr"},{value:"LOAD VOLTAGE",units:"KV",sym:"lvol"},{value:"Oil Temp At Rated Load",units:"°C",sym:"toTemp"},{value:"FREQUENCY",units:"Hz",sym:"fq"}]
+const assetData=[{name:"Transformer-1",port:1},{name:"Transformer-2",port:2},{name:"Transformer-3",port:3},{name:"Transformer-4",port:4}]
 
-function NamePlate({id}){
-  const [rating,setRating] = useState(undefined)
-  useEffect(() => {
-    axios.get(`${API}:${9000+id}/trafo/nameplate`)
-      .then((data) => {
-        setRating(data.data);
-      });
-  }, []);
+function Assets(){
   return(
-    <div className="ml-4 md:ml-28 shadow-lg rounded-2xl" >
-      <p className=" ml-16 md:mx-36 mt-4">Name plate</p>
-      <hr />
-      {nameplate.map((name,id)=>(<NamePlateTemp rating={rating} key={id} name={name} />))}
-      <button className="border border-green-500 hover:text-white hover:bg-green-500 px-4 py-2 rounded-xl ml-36 mt-10" >Save</button>
+    <div className=" md:ml-20 flex gap-x-20 flex-wrap gap-y-10">
+      {assetData.map((asset,id)=>(<AssetTemp key={id} asset={asset} /> ))}
+    </div>
+  )
+}
+function AssetTemp({asset}){
+  const history = useHistory()
+  return(
+    <div
+    onClick={()=>(history.push(`/trafo/${asset.port}`))}
+    className="flex cursor-pointer flex-col">
+      <img className="w-32" src={tarfoImg} />
+      <p>{asset.name}</p>
     </div>
   )
 }
 
-function NamePlateTemp({name,rating}){
-  let symbol = name.sym
+function Transformer(){
+  let {id} = useParams();id = +id
+  const history = useHistory()
   return(
-    <div className="mt-10 mb-5 ml-5 flex">
-        <p>{name.value}: </p>
-        <input value = {rating?rating[symbol]:""} className="border-b-2 ml-2 w-36 focus:outline-none focus:border-b-blue-500" />
-        {name.units}
-    </div>
+    <>
+      <div>
+        <button 
+        onClick={()=>history.push("/trafo")}
+        className="mt-5 md:ml-5 text-3xl border border-blue-500 rounded-full px-2 bg-blue-500 text-white "> &lt; </button>
+      </div>
+      <Location id = {id} />
+        <hr className="mt-16 md:mx-20" />
+        <div className='main flex flex-wrap mt-16 ml-4 md:ml-16'>
+        <Coniguration id={id}  />
+        <DiasplaySide id={id} />
+        <NamePlate id={id} />
+      </div>
+    </>
   )
 }
 
-
-export const Dividewithhun = value => ((+value)/100).toFixed(2)
 
 export default App;
 
