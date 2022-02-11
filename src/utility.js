@@ -1,6 +1,6 @@
-// export const API = ",http://183.83.219.20",
+export const API = "http://183.83.219.20"
 // export const API = "http://127.0.0.1"
-export const API = "http://192.168.60.187"
+// export const API = "http://192.168.60.187"
 
 export const CountryCodes = [
     { code:"AF",name:"Afghanistan"},

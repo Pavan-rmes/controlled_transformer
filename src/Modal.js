@@ -1,6 +1,8 @@
+import axios from "axios";
 import React from "react";
+import { API } from "./utility";
 
-export function Modal({ showModal, setShowModal,H2,setH2,C2H6,setC2H6,CH4,setCH4,C2H4,setC2H4,C2H2,setC2H2  }) {
+export function Modal({ showModal, setShowModal,H2,setH2,C2H6,setC2H6,CH4,setCH4,C2H4,setC2H4,C2H2,setC2H2,id  }) {
 
   return (
     <>
@@ -77,7 +79,12 @@ export function Modal({ showModal, setShowModal,H2,setH2,C2H6,setC2H6,CH4,setCH4
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false)
+                      axios.post(`${API}:${9000+id}/trafo/dga`,{
+                        H2,C2H6,C2H4,CH4,C2H2
+                      })
+                    }}
                   >
                     Save Changes
                   </button>

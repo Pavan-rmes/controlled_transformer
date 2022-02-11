@@ -13,6 +13,14 @@ export const Dividewithhun = value => ((+value)/100).toFixed(2)
 export function DiasplaySide({id}) {
 
   useEffect(() => {
+    axios.get(`${API}:${9000+id}/trafo`)
+      .then((data) => {
+        setH2(data.data.H2);setC2H6(data.data.C2H6);
+        setCH4(data.data.CH4);setC2H4(data.data.C2H4);setC2H2(data.data.C2H2);
+      });
+  }, []);
+
+  useEffect(() => {
     const ENDPOINT = `${API}:${8000+id}`;
     console.log(ENDPOINT)
     const socket = socketIOClient(ENDPOINT);
@@ -21,15 +29,6 @@ export function DiasplaySide({id}) {
     });
     return () => socket.disconnect();
   }, []);
-
-  useEffect(() => {
-    axios.get(`${API}:${9000+id}/trafo`)
-      .then((data) => {
-        setH2(data.data.H2);setC2H6(data.data.C2H6);
-        setCH4(data.data.CH4);setC2H4(data.data.C2H4);setC2H2(data.data.C2H2);
-      });
-  }, []);
-
   const [displayValues,setDisplayValues] = useState()
   const [H2,setH2] = useState("73.12")
   const [C2H6,setC2H6] = useState("1.07")
@@ -37,6 +36,7 @@ export function DiasplaySide({id}) {
   const [C2H4,setC2H4] = useState("17.66")
   const [C2H2,setC2H2] = useState("0.04")
   const [showModal, setShowModal] = React.useState(false);
+  console.log(H2)
   return (
     <>
       <div className='box-bordermr-2 md:ml-20 shadow-lg mr-5 rounded-2xl md:pr-20'>
@@ -45,7 +45,7 @@ export function DiasplaySide({id}) {
           <Modal 
           H2={H2} setH2={setH2} C2H6={C2H6} setC2H6={setC2H6}
           CH4={CH4} setCH4={setCH4} C2H4={C2H4} setC2H4={setC2H4}
-          C2H2={C2H2} setC2H2={setC2H2}
+          C2H2={C2H2} setC2H2={setC2H2} id= {id}
           showModal={showModal} setShowModal={setShowModal} />
         </div>
         <div onClick={() => setShowModal(true)} className='cursor-pointer mt-8 ml-24 md:ml-96 border w-20 pl-5 py-2 border-gray-500 hover:bg-gray-500 hover:text-white rounded-xl' >

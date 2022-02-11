@@ -5,7 +5,7 @@ import { Coniguration } from "./components/Coniguration";
 import { NamePlate } from "./components/NamePlate";
 import { Location } from "./components/Location";
 import {Login} from "./components/Login"
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import {AuthRoute} from "./Authroute"
 import tarfoImg from "./images/transformerModel1.jpg";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
@@ -26,12 +26,13 @@ function App() {
           <AuthRoute path="/trafo">
             <Assets />
           </AuthRoute>
+          <Redirect from="/" to="/login" />
         </Switch>
       </div>
   );
 }
 
-const assetData=[{name:"Transformer-1",port:1},{name:"Transformer-2",port:2},{name:"Transformer-3",port:3},{name:"Transformer-4",port:4}]
+const assetData=[{name:"Transformer-1",port:0},{name:"Transformer-2",port:2},{name:"Transformer-3",port:3},{name:"Transformer-4",port:4}]
 
 function Assets(){
   return(
