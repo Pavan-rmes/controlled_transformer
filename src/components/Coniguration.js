@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import {useState,useEffect } from 'react';
 import { API } from "../utility";
 import axios from "axios";
+import { context } from "../App";
 
 export function Coniguration({id}) {
 
@@ -9,6 +10,7 @@ export function Coniguration({id}) {
   const [port, setPort] = useState(50002);
   const [automatic, setAutomatic] = useState("yes");
   const [loadPercentage, setLoadPercentage] = useState("50");
+  const value = useContext(context)
   useEffect(()=>{
     axios.get(`${API}:${9000+id}/trafo`)
       .then((data) => {
@@ -31,20 +33,20 @@ export function Coniguration({id}) {
     <>
       <div className='config shadow-lg rounded-2xl ml-4 pl-4 pr-4 pt-4'>
         <label className="block mb-2" for="username">
-          Give the port:-
+          Modbus Listing on:-
         </label>
         <input disabled onChange={(event) => setPort(event.target.value)} style={{ width: "250px" }} value={port} className={`${portErr ? "mb-0" : "mb-10"} appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline`} type="text" placeholder="Port number above 50,000" />
         <br></br>
         <p className={`${portErr ? "block" : "hidden"} mb-8 text-red-500`}>Port Should be greater than 50,000</p>
         <label className="block text-gray-700  mb-2" for="username">
-          Do you want to make it automatic:-
+          Automatic or Manual:-
         </label>
         <select value={automatic} onChange={(event) => setAutomatic(event.target.value)} className='py-2 mb-14 pr-10 pl-2 border rounded leading-tight'>
           <option value={"no"}>No</option>
           <option value={"yes"}>Yes</option>
         </select>
         <label className="block mb-2" for="username">
-          Give the percentage of load:-(0-130)
+          Load Percentage:-(0-130)
         </label>
         <input onChange={(event) => setLoadPercentage(event.target.value)} style={{ width: "250px" }} value={loadPercentage} className={`${loadErr ? "mb-0" : "mb-10"} appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline`} type="text" placeholder="load value in percentage" />
         <p className={`${loadErr ? "block" : "hidden"} mb-8 text-red-500`}>Give a valid load percentage</p>
@@ -66,6 +68,7 @@ export function Coniguration({id}) {
             style={{ marginLeft: "30%", marginBottom: "20%" }}
             onClick={() => {
               console.log("hello");
+              value.status=false
               checkInputValues() ? SendRequest(id,loadErr,regulation, loadPercentage, port, automatic, setAutomatic, setPort, setLoadPercentage, setRegulation) : console.log("unexpected error");
             }}
             className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">

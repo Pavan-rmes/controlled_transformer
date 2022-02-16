@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{createContext, useContext, useEffect, useReducer} from "react";
 import './App.css';
 import { DiasplaySide } from "./components/DiasplaySide";
 import { Coniguration } from "./components/Coniguration";
@@ -9,6 +9,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import {AuthRoute} from "./Authroute"
 import tarfoImg from "./images/transformerModel1.jpg";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import loadcurve from "./images/load_Curve1.jpg"
 
 function App() {
   // const location = useLocation()
@@ -53,6 +54,8 @@ function AssetTemp({asset}){
   )
 }
 
+export const context = createContext()
+
 function Transformer(){
   let {id} = useParams();id = +id
   const history = useHistory()
@@ -63,12 +66,16 @@ function Transformer(){
         onClick={()=>history.push("/trafo")}
         className="mt-5 md:ml-5 text-3xl border border-blue-500 rounded-full px-2 bg-blue-500 text-white "> &lt; </button>
       </div>
-      <Location id = {id} />
+        <Location id = {id} />
         <hr className="mt-16 md:mx-20" />
+        <LoadCurve />
         <div className='main flex flex-wrap mt-16 ml-4 md:ml-16'>
-        <Coniguration id={id}  />
-        <DiasplaySide id={id} />
-        <NamePlate id={id} />
+          <context.Provider value={{status:true}}>
+          <NamePlate id={id} />
+          <Coniguration id={id}  />
+          <DiasplaySide id={id} >
+          </DiasplaySide>
+        </context.Provider>
       </div>
     </>
   )
@@ -77,5 +84,14 @@ function Transformer(){
 
 export default App;
 
-
+function LoadCurve(){
+  return(
+    <div>
+    <button className="border absolute border-green-500 hover:text-white hover:bg-green-500 px-2 rounded-xl mr-2 right-2">Load Curve</button>
+    <div className="ml-48 rounded-2xl mt-5 mb-20 object-fill">
+      {/* <img src={loadcurve} /> */}
+    </div>
+    </div>
+  )
+}
 
