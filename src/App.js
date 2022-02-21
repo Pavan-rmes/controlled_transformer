@@ -67,14 +67,13 @@ function Transformer(){
         className="mt-5 md:ml-5 text-3xl border border-blue-500 rounded-full px-2 bg-blue-500 text-white "> &lt; </button>
       </div>
         <Location id = {id} />
-        <hr className="mt-16 md:mx-20" />
-        <LoadCurve />
-        <div className='main flex flex-wrap mt-16 ml-4 md:ml-16'>
+        <hr className="mt-10 md:mx-20" />
+        <div className='main flex flex-wrap mt-5 ml-4 md:ml-16'>
           <context.Provider value={{status:true}}>
           <NamePlate id={id} />
           <Coniguration id={id}  />
-          <DiasplaySide id={id} >
-          </DiasplaySide>
+          <DiasplaySide id={id} />
+          <LoadCurve />
         </context.Provider>
       </div>
     </>
@@ -87,9 +86,8 @@ export default App;
 function LoadCurve(){
   return(
     <div>
-    <button className="border absolute border-green-500 hover:text-white hover:bg-green-500 px-2 rounded-xl mr-2 right-2">Load Curve</button>
-    <div className="ml-48 rounded-2xl mt-5 mb-20 object-fill">
-      {/* <img src={loadcurve} /> */}
+    <div className="rounded-2xl mt-4 mb-20 object-fill">
+      <img className="h-56" src={loadcurve} />
     </div>
     </div>
   )

@@ -14,7 +14,7 @@ export function ModalFanbank({showFanModal, setShowFanModal,id}) {
         setFB1Status(data.data.Fb1status)
         setFB2Status(data.data.Fb2status)
       });
-  }, [value.status]);
+  }, [value.status,value.runstatus]);
 
   function updateFanBank(){
     axios.post(`${API}:${9000+id}/trafo/fanbank`,{Fb1Status,Fb2Status})
@@ -34,7 +34,7 @@ export function ModalFanbank({showFanModal, setShowFanModal,id}) {
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                   <h3 className="text-3xl font-semibold">
-                    Gases Values
+                    Fan Bank Manual Control
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -60,7 +60,7 @@ export function ModalFanbank({showFanModal, setShowFanModal,id}) {
                     Close
                   </button>
                   <button
-                    onClick={()=>updateFanBank()}
+                    onClick={()=>{updateFanBank();setShowFanModal(false)}}
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                   >

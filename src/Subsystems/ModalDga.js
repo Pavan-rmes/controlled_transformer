@@ -31,35 +31,35 @@ export function ModalDga({ showDgaModal, setShowDgaModal,H2,setH2,C2H6,setC2H6,C
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <label className="block mb-2" for="username">
-                    C2H2 :-
+                    C2H2
                   </label>
                   <input
                   onChange={(e)=>setC2H2(e.target.value)}
                   value={C2H2} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="acetylene Value" />
 
                   <label className="block mb-2" for="username">
-                    CH4:-
+                    CH4
                   </label>
                   <input
                   onChange={(e)=>setCH4(e.target.value)}
                   value={CH4} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="methane Value" />
 
                   <label className="block mb-2" for="username">
-                    C2H4:-
+                    C2H4
                   </label>
                   <input 
                   onChange={(e)=>setC2H4(e.target.value)}
                   value={C2H4} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="ethylene Value" />
 
                   <label className="block mb-2" for="username">
-                    H2:-
+                    H2
                   </label>
                   <input
                   onChange={(e)=>setH2(e.target.value)}
                   value={H2} style={{ width: "250px" }} className="mb-5 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline" type="text" placeholder="ethylene Value" />
 
                   <label className="block mb-2" for="username">
-                    C2H6:-
+                    C2H6
                   </label>
                   <input
                   onChange={(e)=>setC2H6(e.target.value)}

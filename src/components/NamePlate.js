@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from 'react';
 
 
-export const nameplate = [{value:"MVA",units:"MVA",sym:"lpow"},{value:"AMPERES",units:"A",sym:"rcurr"},{value:"LOAD VOLTAGE",units:"KV",sym:"lvol"},{value:"Oil Temp At Rated Load",units:"°C",sym:"toTemp"},{value:"Wnd Temp At Rated Load",units:"°C",sym:"wndTemp"},{value:"FREQUENCY",units:"Hz",sym:"fq"}]
+export const nameplate = [{value:"Asset Name",units:"",sym:"name"},{value:"MVA",units:"MVA",sym:"lpow"},{value:"AMPERES",units:"A",sym:"rcurr"},{value:"LOAD VOLTAGE",units:"KV",sym:"lvol"},{value:"Oil Temp At Rated Load",units:"°C",sym:"toTemp"},{value:"Wnd Temp At Rated Load",units:"°C",sym:"wndTemp"},{value:"FREQUENCY",units:"Hz",sym:"fq"}]
 
 
 export function NamePlate({ id }) {
@@ -24,6 +24,8 @@ export function NamePlate({ id }) {
       <p className=" mx-24 mt-4 font-bold">Name plate</p>
       <hr />
       <div className="mt-10">
+        {/* <p>Asset Name: </p>
+        <input className="border-b-2 ml-2 w-24 focus:outline-none focus:border-b-blue-500"></input> */}
         {nameplate.map((name, id) => (<NamePlateTemp setRating={setRating} id={id} rating={rating} key={id} name={name} />))}
       </div>
       <button
@@ -32,7 +34,7 @@ export function NamePlate({ id }) {
     </div>
   );
 }
-function NamePlateTemp({ name, rating, setRating }) {
+function NamePlateTemp({ name, rating, setRating,id }) {
   const [err, setErr] = useState(false);
   let symbol = name.sym;
   let result = {};
@@ -40,8 +42,8 @@ function NamePlateTemp({ name, rating, setRating }) {
     let keys = Object.keys(rating);
     let filterKeys = keys.filter((key) => key !== symbol);
     filterKeys.map((key) => (result[key] = rating[key]));
-    if (isNaN(e.target.value)) { setErr("Give valid value"); }
-    else { setErr(false); }
+    // if (isNaN(e.target.value)) { setErr("Give valid value"); }
+    // else { setErr(false); }
     result[symbol] = e.target.value;
     setRating(result);
   }
