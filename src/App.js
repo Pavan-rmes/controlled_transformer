@@ -33,7 +33,7 @@ function App() {
   );
 }
 
-const assetData=[{name:"Transformer-1",port:0},{name:"Transformer-2",port:2},{name:"Transformer-3",port:3},{name:"Transformer-4",port:4}]
+const assetData=[{name:"Transformer-1",port:1},{name:"Transformer-2",port:2},{name:"Transformer-3",port:3},{name:"Transformer-4",port:4}]
 
 function Assets(){
   return(
@@ -67,7 +67,7 @@ function Transformer(){
         className="mt-5 md:ml-5 text-3xl border border-blue-500 rounded-full px-2 bg-blue-500 text-white "> &lt; </button>
       </div>
         <Location id = {id} />
-        <hr className="mt-10 md:mx-20" />
+        <hr className="mt-5 md:mx-20" />
         <div className='main flex flex-wrap mt-5 ml-4 md:ml-16'>
           <context.Provider value={{status:true}}>
           <NamePlate id={id} />

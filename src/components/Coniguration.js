@@ -14,12 +14,12 @@ export function Coniguration({id}) {
   value.runstatus = true
   value.status=automatic==="yes"?true:false
   useEffect(()=>{
-    axios.get(`${API}:${9000+id}/trafo`)
-      .then((data) => {
-        setRegulation(data.data.regulation);
-        setLoadPercentage(data.data.loadpercentage);
-        setPort(data.data.port);
-        data.data.automatic ? setAutomatic("yes") : setAutomatic("no");
+    axios.get(`${API}:${9000}/trafo?id=${id}`)
+    .then((data) => {
+      setRegulation(data.data.regulation);
+      setLoadPercentage(data.data.loadpercentage);
+      setPort(data.data.port);
+      data.data.automatic ? setAutomatic("yes") : setAutomatic("no");
       });
   },[])
   const [portErr, setPortErr] = useState(false);
@@ -102,7 +102,7 @@ export function SendRequest(id,loadErr,regulation,loadPercentage,port,automatic,
       redirect: 'follow'
     };
   
-    fetch(`${API}:${9000+id}/trafo`, requestOptions)
+    fetch(`${API}:${9000}/trafo?id=${id}`, requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));

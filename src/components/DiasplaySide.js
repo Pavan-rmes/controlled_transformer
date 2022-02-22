@@ -26,18 +26,20 @@ export function DiasplaySide({id}) {
   const [showBushModal, setShowBushModal] = React.useState(false);
   const value = useContext(context)
   useEffect(() => {
-    axios.get(`${API}:${9000+id}/trafo`)
+    axios.get(`${API}:${9000}/trafo?id=${id}`)
       .then((data) => {
+        console.log(data.data)
         setH2(data.data.H2);setC2H6(data.data.C2H6);
         setCH4(data.data.CH4);setC2H4(data.data.C2H4);setC2H2(data.data.C2H2);
       });
   }, [value.status,value.runstatus]);
 
   useEffect(() => {
-    const ENDPOINT = `${API}:${8000+id}`;
+    const ENDPOINT = `${API}:${8000}`;
+    console.log(ENDPOINT)
     const socket = socketIOClient(ENDPOINT);
     socket.on("FromAPI", data => {
-      setDisplayValues(data)
+      setDisplayValues(data[`Fromtx${id}`])
     });
     return () => socket.disconnect();
   }, []);

@@ -2,13 +2,14 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { context } from "../App";
 import { API } from "../utility";
+import socketIOClient from "socket.io-client";
 
 export function ModalFanbank({showFanModal, setShowFanModal,id}) {
   const[Fb1Status,setFB1Status] = React.useState(false)
   const [Fb2Status,setFB2Status] = React.useState(true)
   const value = useContext(context)
   React.useEffect(() => {
-    axios.get(`${API}:${9000+id}/trafo/fanbank`)
+    axios.get(`${API}:${9000}/trafo/fanbank?id=${id}`)
       .then((data) => {
         console.log(data.data)
         setFB1Status(data.data.Fb1status)
@@ -17,8 +18,15 @@ export function ModalFanbank({showFanModal, setShowFanModal,id}) {
   }, [value.status,value.runstatus]);
 
   function updateFanBank(){
-    axios.post(`${API}:${9000+id}/trafo/fanbank`,{Fb1Status,Fb2Status})
+    axios.post(`${API}:${9000}/trafo/fanbank?id=${id}`,{Fb1Status,Fb2Status})
     .then((data)=>console.log(data))
+  }
+  function test(){
+    const ENDPOINT = `${API}:${8000+id}`;
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit("test", "hello");
+    socket.on("success",(arg)=>socket.disconnect())
+    return () => socket.disconnect();
   }
     // console.log(showFanModal)
   return (
@@ -60,7 +68,7 @@ export function ModalFanbank({showFanModal, setShowFanModal,id}) {
                     Close
                   </button>
                   <button
-                    onClick={()=>{updateFanBank();setShowFanModal(false)}}
+                    onClick={()=>{updateFanBank();test();setShowFanModal(false)}}
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                   >

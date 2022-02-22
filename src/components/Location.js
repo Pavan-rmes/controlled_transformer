@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CountryCodes, API } from "../utility";
 import axios from "axios";
-import rmes from "../images/rmes-logo.png"
+import rmes from "../images/rmes-logo1.png"
 
 export function Location({ id }) {
   const [code, setCode] = useState("IN");
@@ -44,7 +44,7 @@ export function Location({ id }) {
       </div>
       </div>
       <p className=" border rounded-2xl py-4 md:pt-10 px-2 ml-8 mr-20">Ambient Temp:- {ambTemp}</p>
-      <img className="ml-auto mr-20" src={rmes} />
+      <img className="ml-auto mr-32" src={rmes} />
     </div>
   );
 }

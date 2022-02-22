@@ -10,11 +10,11 @@ export const nameplate = [{value:"Asset Name",units:"",sym:"name"},{value:"MVA",
 export function NamePlate({ id }) {
   const [rating, setRating] = useState(undefined);
   function sendRating() {
-    axios.post(`${API}:${9000 + id}/trafo/nameplate`, rating);
+    axios.post(`${API}:${9000}/trafo/nameplate?id=${id}`, rating);
   }
 
   useEffect(() => {
-    axios.get(`${API}:${9000 + id}/trafo/nameplate`)
+    axios.get(`${API}:${9000}/trafo/nameplate?id=${id}`)
       .then((data) => {
         setRating(data.data);
       });

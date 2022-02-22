@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { API } from "../utility";
 
+
 export function ModalDga({ showDgaModal, setShowDgaModal,H2,setH2,C2H6,setC2H6,CH4,setCH4,C2H4,setC2H4,C2H2,setC2H2,id  }) {
 
   return (
@@ -81,7 +82,7 @@ export function ModalDga({ showDgaModal, setShowDgaModal,H2,setH2,C2H6,setC2H6,C
                     type="button"
                     onClick={() => {
                       setShowDgaModal(false)
-                      axios.post(`${API}:${9000+id}/trafo/dga`,{
+                      axios.post(`${API}:${9000}/trafo/dga?id=${id}`,{
                         H2,C2H6,C2H4,CH4,C2H2
                       })
                     }}
